@@ -67,3 +67,32 @@ class Book(models.Model):
     def get_absolute_url(self):
         return reverse('book-detail', args=[str(self.id)])
 
+
+class Status(models.Model):
+    name = models.CharField(max_length=20,
+                            help_text='Введите статус экземпляра книги',
+                            verbose_name='Статус экземпляра книги')
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class BookInstance(models.Model):
+    book = models.ForeignKey('Book', on_delete=models.CASCADE, null=True)
+    inv_nom = models.CharField(max_length=20, null=True,
+                            help_text='Введите инвентарный номер экземпляра',
+                            verbose_name='Инвентарный номер')
+    imprint = models.CharField(max_length=200, 
+                            help_text='Введите издательство и год выпуска',
+                            verbose_name='Издательство')
+    status = models.ForeignKey('Status', on_delete=models.CASCADE,
+                            null=True,
+                            help_text='Изменить состояние экземпляра',
+                            verbose_name='Статус экземпляра книги')
+    due_back = models.DateField(null=True, blank=True,
+                            help_text='Введите конец срока статуса',
+                            verbose_name='Дата окончания статуса')
+
+    def __str__(self) -> str:
+        return '%s %s %s' % (self.inv_nom, self.book, self.status)
+
