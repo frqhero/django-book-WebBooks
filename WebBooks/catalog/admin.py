@@ -11,13 +11,24 @@ admin.site.register(Status)
 
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ('last_name', 'first_name', 'date_of_birth', 'date_of_death')
+    fields = ['first_name', 'last_name', ('date_of_birth', 'date_of_death')]
 
 admin.site.register(Author, AuthorAdmin)
+
+class BooksInstanceInline(admin.TabularInline):
+    model = BookInstance
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'genre', 'language', 'display_author')
+    list_filter = ('genre', 'author')
+    inlines = [BooksInstanceInline]
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
-    pass
+    list_filter = ('book', 'status')
+    fieldsets = (
+        ('Экземпляр книги', {'fields': ('book', 'imprint', 'inv_nom')}),
+        ('Статус и его окончание действия', {'fields': ('status', 'due_back')}),
+    )
+
