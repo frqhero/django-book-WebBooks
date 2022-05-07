@@ -28,3 +28,13 @@ class BookDetailView(generic.DetailView):
 class AuthorListView(generic.ListView):
     model = Author
     paginate_by = 4
+
+def proba_pera(request):
+    res = '<h1>'
+    for each in request.session.keys():
+        res += str(each)
+        res += '<br>'
+    res += '</h1>'
+    res += request.session['_auth_user_id'] + '<br>' + request.session['_auth_user_backend'] + '<br>' + request.session['_auth_user_hash']
+    res = request.session.get('zalupa_konskaya', 'zal')
+    return HttpResponse(res)
