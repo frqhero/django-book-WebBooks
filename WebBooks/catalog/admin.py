@@ -24,11 +24,20 @@ class BookAdmin(admin.ModelAdmin):
     list_filter = ('genre', 'author')
     inlines = [BooksInstanceInline]
 
+# @admin.register(BookInstance)
+# class BookInstanceAdmin(admin.ModelAdmin):
+#     list_filter = ('book', 'status')
+#     fieldsets = (
+#         ('Экземпляр книги', {'fields': ('book', 'imprint', 'inv_nom')}),
+#         ('Статус и его окончание действия', {'fields': ('status', 'due_back')}),
+#     )
+
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
-    list_filter = ('book', 'status')
+    list_display = ('book', 'status', 'borrower', 'due_back', 'id')
+    list_filter = ('status', 'due_back')
     fieldsets = (
-        ('Экземпляр книги', {'fields': ('book', 'imprint', 'inv_nom')}),
-        ('Статус и его окончание действия', {'fields': ('status', 'due_back')}),
+        (None, {'fields': ('book', 'imprint', 'inv_nom')}),
+        ('Availability', {'fields': ('status', 'due_back', 'borrower')}),
     )
 

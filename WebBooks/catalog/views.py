@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Book, Author, BookInstance, Genre
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 def index(request):
@@ -43,3 +44,12 @@ def proba_pera(request):
     res += request.session['_auth_user_id'] + '<br>' + request.session['_auth_user_backend'] + '<br>' + request.session['_auth_user_hash']
     res = request.session.get('zalupa_konskaya', 'zal')
     return HttpResponse(res)
+
+
+class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
+    model = BookInstance
+    template_name = 'catalog/bookinstance_list_borrowed_user.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='2').order_by('due_back')
