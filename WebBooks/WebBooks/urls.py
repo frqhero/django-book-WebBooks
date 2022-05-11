@@ -26,4 +26,5 @@ urlpatterns = [
     path('proba/', views.proba_pera),
     path('accounts/', include('django.contrib.auth.urls')),
     re_path(r'^mybooks/$', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),
+    path('authors_add/', views.authors_add, name='authors_add'),
 ]
