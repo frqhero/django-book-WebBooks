@@ -82,4 +82,14 @@ def delete(request, id):
         return HttpResponseNotFound('<h2>Автор не найден</h2>')
 
 
-def
+def edit1(request, id):
+    author = Author.objects.get(id=id)
+    if request.method == 'POST':
+        author.first_name = request.POST.get('first_name')
+        author.last_name = request.POST.get('last_name')
+        author.date_of_birth = request.POST.get('date_of_birth')
+        author.date_of_death = request.POST.get('date_of_death')
+        author.save()
+        return HttpResponseRedirect('/authors_add/')
+    else:
+        return render(request, 'edit1.html', {'author': author})

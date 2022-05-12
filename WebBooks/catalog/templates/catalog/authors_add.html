@@ -20,7 +20,7 @@
     </table>
 
     <h3>Добавить в БД автора книги</h3>
-    <form>
+    <form method="post" action="/create/">
         {% csrf_token %}
         <table>
             {{form}}

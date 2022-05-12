@@ -27,4 +27,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     re_path(r'^mybooks/$', views.LoanedBooksByUserListView.as_view(), name='my-borrowed'),
     path('authors_add/', views.authors_add, name='authors_add'),
+    path('edit1/<int:id>/', views.edit1, name='edit1'),
+    path('create/', views.create, name='create'),
+    path('delete/<int:id>', views.delete, name='delete'),
 ]
