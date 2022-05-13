@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,10 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xz)3hm!=yi=@!kcjl7s3bx^vl=)rr4b_gvb8gg53qyvq#2cr$8'
+# SECRET_KEY = 'django-insecure-xz)3hm!=yi=@!kcjl7s3bx^vl=)rr4b_gvb8gg53qyvq#2cr$8'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','django-insecure-xz)3hm!=yi=@!kcjl7s3bx^vl=)rr4b_gvb8gg53qyvq#2cr$8')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 ALLOWED_HOSTS = []
 
@@ -127,3 +130,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+db_from_env = 0
